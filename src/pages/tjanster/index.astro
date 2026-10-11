@@ -1,0 +1,24 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ServiceCards from '../../components/ServiceCards.astro';
+import Arrow from '../../components/Arrow.astro';
+---
+<Layout
+  title="Tjänster - BVS VENTILATION"
+  description="Tjänster vi erbjuder Vi erbjuder ett brett utbud av tjänster inom ventilation och inomhusklimat såsom ventilationsmontage, filterservice och kanalrensning Hur"
+>
+  <section class="hero hero--page">
+    <div class="container">
+      <h1>Tjänster vi erbjuder</h1>
+      <p>Vi erbjuder ett brett utbud av tjänster inom ventilation och inomhusklimat såsom ventilationsmontage, filterservice och kanalrensning</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container center">
+      <h2>Hur kan vi hjälpa dig?</h2>
+      <div style="text-align:left"><ServiceCards eagerFirst /></div>
+      <div class="section-cta"><a class="btn" href="/kontakt/"><span>Hör mer</span><Arrow /></a></div>
+    </div>
+  </section>
+</Layout>
+

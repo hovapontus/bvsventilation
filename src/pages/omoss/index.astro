@@ -1,0 +1,55 @@
+---
+import { Picture } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import about from '../../assets/images/Namnlos-design-16.webp';
+const check = 'M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z';
+const values = [
+  'Vi anpassar våra tjänster för att ge bästa möjliga resultat för varje kund.',
+  'Från planering till färdig installation levererar vi lösningar som håller över tid.',
+  'Vi arbetar med energieffektiva system för att bidra till både miljö och ekonomi.',
+];
+---
+<Layout
+  title="Om oss - BVS VENTILATION"
+  description="BVS Ventilation AB är medlem i Företagarna. Över 20 års erfarenhet av ventilation – kompletta lösningar för bostäder och företag, service, filterbyten och energibesparande åtgärder."
+>
+  <section class="hero hero--page">
+    <div class="container">
+      <h1>Om oss</h1>
+      <p>BVS Ventilation AB är medlem i Företagarna, Sveriges största företagarorganisation.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <Picture src={about} alt="Ventilationsmontage" widths={[400, 600, 800]} sizes="(max-width: 800px) 100vw, 540px" formats={['avif']} fallbackFormat="webp" loading="eager" />
+      </div>
+      <div>
+        <h2>Vår historia</h2>
+        <p>Sedan starten har vi hjälpt både privatpersoner och företag med kompletta lösningar inom ventilation, från bostads- och villaventilation till service, filterbyten och energibesparande åtgärder. Vårt fokus ligger på kvalitet, trygghet och långsiktiga relationer med våra kunder.</p>
+        <p>Vi erbjuder även försäljning av ventilationsaggregat (energiklass A) med tillhörande tillbehör och filter – alltid med målet att skapa ett friskare och mer energieffektivt inomhusklimat.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight-top">
+    <div class="container two-col">
+      <div>
+        <h3>Vårt uppdrag</h3>
+        <p>Vårt uppdrag är att leverera trygga och energieffektiva ventilationslösningar som skapar ett trivsamt inomhusklimat. Vi kompromissar aldrig med kvalitet eller säkerhet och strävar alltid efter långsiktiga kundrelationer byggda på förtroende.</p>
+      </div>
+      <div>
+        <h3>Kärn värden</h3>
+        <ul class="checks">
+          {values.map((v) => (
+            <li>
+              <svg aria-hidden="true" viewBox="0 0 512 512"><path d={check} /></svg>
+              <span>{v}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</Layout>

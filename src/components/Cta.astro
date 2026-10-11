@@ -1,0 +1,16 @@
+---
+import { Picture } from 'astro:assets';
+import Arrow from './Arrow.astro';
+import img from '../assets/images/Namnlos-700-x-500-px.webp';
+---
+<section class="cta">
+  <div class="container">
+    <div>
+      <Picture src={img} alt="Skorsten" widths={[400, 600, 700]} sizes="(max-width: 800px) 100vw, 560px" formats={['avif']} fallbackFormat="webp" loading="lazy" />
+    </div>
+    <div>
+      <h2>Vi finns här för dig!</h2>
+      <a class="btn btn--white" href="tel:+46703965353"><span>+46 70 396 53 53</span><Arrow /></a>
+    </div>
+  </div>
+</section>

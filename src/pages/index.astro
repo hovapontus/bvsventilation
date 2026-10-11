@@ -1,0 +1,80 @@
+---
+import { Picture } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import ServiceCards from '../components/ServiceCards.astro';
+import Arrow from '../components/Arrow.astro';
+import hero from '../assets/images/Namnlos-design.webp';
+import about from '../assets/images/Namnlos-design-1.webp';
+import g6 from '../assets/images/Namnlos-design-6.webp';
+import g10 from '../assets/images/Namnlos-design-10.webp';
+import g7 from '../assets/images/Namnlos-design-7.webp';
+import g11 from '../assets/images/Namnlos-design-11-2.webp';
+import g14 from '../assets/images/Namnlos-design-14.webp';
+import g8 from '../assets/images/Namnlos-design-8.webp';
+import g12 from '../assets/images/Namnlos-design-12-1.webp';
+import g9 from '../assets/images/Namnlos-design-9.webp';
+import g13 from '../assets/images/Namnlos-design-13.webp';
+import g15 from '../assets/images/Namnlos-design-15.webp';
+
+const columns = [
+  [{ src: g6, alt: 'FTX-aggregat' }, { src: g10, alt: 'Ventilations-ljuddämpare' }],
+  [{ src: g7, alt: 'Ventilationsmontage' }, { src: g11, alt: 'Paddelhall' }, { src: g14, alt: 'Ventilation' }],
+  [{ src: g8, alt: 'Värmepump' }, { src: g12, alt: 'Ventilationskanal utomhus' }],
+  [{ src: g9, alt: 'FTX-aggregat' }, { src: g13, alt: 'Köksventilation' }, { src: g15, alt: 'Swegon gold' }],
+];
+---
+<Layout
+  title="Hem - BVS VENTILATION"
+  ogType="website"
+  description="För ett bra inomhusklimat! Vi erbjuder moderna ventilationslösningar som skapar ett hälsosamt och energieffektivt inomhusklimat. Oavsett om det gäller"
+>
+  <section class="hero hero--home">
+    <div class="container">
+      <div class="hero-text">
+        <h1>För ett bra inomhusklimat!</h1>
+        <p>Vi erbjuder moderna ventilationslösningar som skapar ett hälsosamt och energieffektivt inomhusklimat. Oavsett om det gäller bostäder, kontor eller industrilokaler hjälper vi dig att hitta rätt system för dina behov.</p>
+        <a class="btn btn--white" href="/kontakt/"><span>Kontakt</span><Arrow /></a>
+      </div>
+      <div class="hero-img">
+        <Picture src={hero} alt="ventilationsrum" widths={[400, 600]} sizes="(max-width: 800px) 100vw, 540px" formats={['avif']} fallbackFormat="webp" loading="eager" fetchpriority="high" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <Picture src={about} alt="Ventilationsmontage" widths={[400, 600, 800]} sizes="(max-width: 800px) 100vw, 540px" formats={['avif']} fallbackFormat="webp" loading="lazy" />
+      </div>
+      <div class="split-text">
+        <h5>Vilka vi är?</h5>
+        <h2>Ett team av proffs inom ventilation!</h2>
+        <p>BVS Ventilation AB har över 20 års erfarenhet i ventilationsbranschen. Företaget grundades 1999 av Jörgen Nilsson under namnet Bohus-Älvsborgs Ventilation &amp; Skorstensservice och ombildades nyligen till ett aktiebolag.</p>
+        <a class="btn" href="/omoss/"><span>Hör mer om oss</span><Arrow /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight-top">
+    <div class="container center">
+      <h2>Hur kan vi hjälpa dig?</h2>
+      <div style="text-align:left"><ServiceCards limit={3} /></div>
+      <div class="section-cta"><a class="btn" href="/tjanster/"><span>Visa alla tjänster</span><Arrow /></a></div>
+    </div>
+  </section>
+
+  <section class="section section--tight-top">
+    <div class="container center">
+      <h2>Vårt arbete</h2>
+      <div class="gallery">
+        {columns.map((col) => (
+          <div class="gallery-col">
+            {col.map((i) => (
+              <Picture src={i.src} alt={i.alt} widths={[250, 400, 600]} sizes="(max-width: 1024px) 50vw, 280px" formats={['avif']} fallbackFormat="webp" loading="lazy" />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

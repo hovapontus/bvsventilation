@@ -1,0 +1,14 @@
+---
+import { Picture } from 'astro:assets';
+import { services } from '../data/services';
+const { limit = services.length, eagerFirst = false } = Astro.props;
+---
+<div class="cards">
+  {services.slice(0, limit).map((s, i) => (
+    <article class="card">
+      <Picture src={s.image} alt={s.alt} widths={[350, 500, 700]} sizes="(max-width: 800px) 100vw, (max-width: 1024px) 50vw, 380px" formats={['avif']} fallbackFormat="webp" loading={eagerFirst && i === 0 ? 'eager' : 'lazy'} />
+      <h4>{s.title}</h4>
+      <p>{s.text}</p>
+    </article>
+  ))}
+</div>
