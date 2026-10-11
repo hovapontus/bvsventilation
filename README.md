@@ -28,7 +28,7 @@ Redigera texten direkt i respektive `.astro`-fil. Sidtitel och meta-beskrivning 
 Lägg den nya bilden i `src/assets/images/`, importera den i sidan (`import x from '../assets/images/x.webp'`) och använd `<Picture src={x} alt="..." />`. Använd gärna originalbilden i full storlek – Astro skapar de mindre varianterna. Byt Open Graph-bilden genom att ersätta `public/og-image.jpg` (1200×630).
 
 ## Kontaktformulär
-Formuläret på `/kontakt/` skickas med `fetch` till Formspree. Byt `FORM_ID_HERE` i `src/pages/kontakt/index.astro` mot ditt Formspree-ID. Fältet `_gotcha` är ett dolt honeypot-fält mot spam.
+Formuläret på `/kontakt/` skickas med `fetch` till Formspree. Formspree-ID:t (`mrpelaak`) anges överst i `src/pages/kontakt/index.astro`. Fältet `_gotcha` är ett dolt honeypot-fält mot spam.
 
 ## Cloudflare Pages
 Framework preset: Astro · Build command: `npm run build` · Output directory: `dist` · miljövariabel `NODE_VERSION` = `22`.
