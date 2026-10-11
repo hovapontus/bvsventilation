@@ -1,0 +1,10 @@
+# Gamla WordPress-adresser -> närmaste sida i nya sajten
+/home        /  301
+/home/       /  301
+/hem         /  301
+/hem/        /  301
+/index.php   /  301
+/om-oss      /omoss/  301
+/om-oss/     /omoss/  301
+/tjanster.html /tjanster/ 301
+/kontakt.html  /kontakt/  301

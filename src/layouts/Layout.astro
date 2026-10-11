@@ -1,5 +1,4 @@
 ---
-import '@fontsource/poppins/latin-500.css';
 import '@fontsource/poppins/latin-600.css';
 import '@fontsource/poppins/latin-700.css';
 import '@fontsource/work-sans/latin-400.css';
@@ -7,14 +6,18 @@ import '@fontsource/work-sans/latin-500.css';
 import '../styles/global.css';
 import logo from '../assets/logo.svg';
 import badge from '../assets/ventlo-badge.svg';
+import poppins700 from '@fontsource/poppins/files/poppins-latin-700-normal.woff2?url';
+import workSans400 from '@fontsource/work-sans/files/work-sans-latin-400-normal.woff2?url';
 import Cta from '../components/Cta.astro';
 
 interface Props {
   title: string;
   description: string;
   ogType?: 'website' | 'article';
+  noindex?: boolean;
+  jsonLd?: object;
 }
-const { title, description, ogType = 'article' } = Astro.props;
+const { title, description, ogType = 'article', noindex = false, jsonLd } = Astro.props;
 const site = 'https://bvsventilation.se';
 const canonical = new URL(Astro.url.pathname, site).href;
 const ogImage = `${site}/og-image.jpg`;
@@ -34,7 +37,8 @@ const nav = [
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="icon" href="/favicon-192.png" sizes="192x192" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -52,15 +56,11 @@ const nav = [
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <meta name="generator" content={Astro.generator} />
-    <script type="application/ld+json" set:html={JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'HVACBusiness',
-      name: 'BVS VENTILATION',
-      url: site,
-      telephone: '+46703965353',
-      email: 'info@bvsventilation.se',
-      address: { '@type': 'PostalAddress', streetAddress: 'Hova 205', postalCode: '451 91', addressLocality: 'Uddevalla', addressCountry: 'SE' },
-    })} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    <link rel="preload" href={workSans400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={poppins700} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={logo.src} as="image" type="image/svg+xml" />
+    <slot name="head" />
   </head>
   <body>
     <a class="skip-link" href="#content">Hoppa till innehåll</a>

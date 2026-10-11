@@ -7,7 +7,7 @@ const { limit = services.length, eagerFirst = false } = Astro.props;
   {services.slice(0, limit).map((s, i) => (
     <article class="card">
       <Picture src={s.image} alt={s.alt} widths={[350, 500, 700]} sizes="(max-width: 800px) 100vw, (max-width: 1024px) 50vw, 380px" formats={['avif']} fallbackFormat="webp" loading={eagerFirst && i === 0 ? 'eager' : 'lazy'} />
-      <h4>{s.title}</h4>
+      <h3 class="card-title">{s.title}</h3>
       <p>{s.text}</p>
     </article>
   ))}

@@ -1,5 +1,5 @@
 ---
-import { Picture } from 'astro:assets';
+import { Picture, getImage } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import ServiceCards from '../components/ServiceCards.astro';
 import Arrow from '../components/Arrow.astro';
@@ -22,12 +22,29 @@ const columns = [
   [{ src: g8, alt: 'Värmepump' }, { src: g12, alt: 'Ventilationskanal utomhus' }],
   [{ src: g9, alt: 'FTX-aggregat' }, { src: g13, alt: 'Köksventilation' }, { src: g15, alt: 'Swegon gold' }],
 ];
+const hero400 = await getImage({ src: hero, format: 'avif', width: 400 });
+const hero600 = await getImage({ src: hero, format: 'avif', width: 600 });
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': ['LocalBusiness', 'HVACBusiness'],
+  '@id': 'https://bvsventilation.se/#business',
+  name: 'BVS VENTILATION',
+  url: 'https://bvsventilation.se',
+  telephone: '+46703965353',
+  email: 'info@bvsventilation.se',
+  image: 'https://bvsventilation.se/og-image.jpg',
+  logo: 'https://bvsventilation.se/favicon-192.png',
+  address: { '@type': 'PostalAddress', streetAddress: 'Hova 205', postalCode: '451 91', addressLocality: 'Uddevalla', addressCountry: 'SE' },
+  areaServed: 'Uddevalla',
+};
 ---
 <Layout
   title="Hem - BVS VENTILATION"
   ogType="website"
-  description="För ett bra inomhusklimat! Vi erbjuder moderna ventilationslösningar som skapar ett hälsosamt och energieffektivt inomhusklimat. Oavsett om det gäller"
+  jsonLd={jsonLd}
+  description="BVS Ventilation i Uddevalla: moderna ventilationslösningar för bostäder, kontor och industri. FTX-aggregat, filterservice, kanalrensning och OVK."
 >
+  <link slot="head" rel="preload" as="image" type="image/avif" imagesrcset={`${hero400.src} 400w, ${hero600.src} 600w`} imagesizes="(max-width: 800px) 100vw, 540px" fetchpriority="high" />
   <section class="hero hero--home">
     <div class="container">
       <div class="hero-text">
@@ -47,7 +64,7 @@ const columns = [
         <Picture src={about} alt="Ventilationsmontage" widths={[400, 600, 800]} sizes="(max-width: 800px) 100vw, 540px" formats={['avif']} fallbackFormat="webp" loading="lazy" />
       </div>
       <div class="split-text">
-        <h5>Vilka vi är?</h5>
+        <p class="kicker">Vilka vi är?</p>
         <h2>Ett team av proffs inom ventilation!</h2>
         <p>BVS Ventilation AB har över 20 års erfarenhet i ventilationsbranschen. Företaget grundades 1999 av Jörgen Nilsson under namnet Bohus-Älvsborgs Ventilation &amp; Skorstensservice och ombildades nyligen till ett aktiebolag.</p>
         <a class="btn" href="/omoss/"><span>Hör mer om oss</span><Arrow /></a>

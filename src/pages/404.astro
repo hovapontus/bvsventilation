@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Arrow from '../components/Arrow.astro';
+---
+<Layout
+  title="Sidan hittades inte - BVS VENTILATION"
+  description="Sidan du letar efter finns inte. Gå tillbaka till startsidan eller kontakta BVS Ventilation."
+  noindex
+>
+  <section class="hero hero--page">
+    <div class="container">
+      <p class="eyebrow">Felkod 404</p>
+      <h1>Sidan hittades inte</h1>
+      <p>Det verkar som att luften tagit slut här. Sidan du letar efter har flyttats eller finns inte längre.</p>
+      <p class="hero-actions">
+        <a class="btn btn--white" href="/"><span>Till startsidan</span><Arrow /></a>
+        <a class="btn btn--outline" href="/kontakt/"><span>Kontakta oss</span><Arrow /></a>
+      </p>
+    </div>
+  </section>
+</Layout>

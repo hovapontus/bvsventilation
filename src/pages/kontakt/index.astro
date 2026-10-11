@@ -4,7 +4,7 @@ const formAction = 'https://formspree.io/f/mrpelaak';
 ---
 <Layout
   title="Kontakt - BVS VENTILATION"
-  description="Kontakta oss Vi hjälper dig gärna med rådgivning, offert eller information om våra produkter och tjänster. Fyll i formuläret nedan så återkommer vi så snart"
+  description="Kontakta BVS Ventilation i Uddevalla för rådgivning, offert eller information om ventilation. Fyll i formuläret eller ring +46 70 396 53 53."
 >
   <section class="hero hero--page">
     <div class="container">
@@ -16,21 +16,26 @@ const formAction = 'https://formspree.io/f/mrpelaak';
   <section class="section">
     <div class="container contact-grid">
       <div>
-        <h5>Behöver du hjälp med ventilation?</h5>
+        <p class="kicker">Behöver du hjälp med ventilation?</p>
         <h2>Hör av dig till oss</h2>
         <p>Kontakta oss idag och boka ett möte för att hitta den bästa ventilationslösningen för dig.</p>
       </div>
       <div class="contact-form">
         <h3>Skicka ett meddelande</h3>
-        <form id="contact-form" action={formAction} method="POST" novalidate>
+        <form id="contact-form" action={formAction} method="POST">
+          <input type="hidden" name="_subject" value="Nytt meddelande från bvsventilation.se" />
           <label class="sr-only" for="f-name">Namn *</label>
-          <input id="f-name" name="name" type="text" placeholder="Namn" autocomplete="name" required />
+          <input id="f-name" name="name" type="text" placeholder="Namn *" autocomplete="name" required aria-describedby="e-name" />
+          <p class="field-error" id="e-name"></p>
           <label class="sr-only" for="f-phone">Telefon *</label>
-          <input id="f-phone" name="phone" type="tel" placeholder="Telefonnummer" autocomplete="tel" required />
+          <input id="f-phone" name="phone" type="tel" placeholder="Telefonnummer *" autocomplete="tel" required aria-describedby="e-phone" />
+          <p class="field-error" id="e-phone"></p>
           <label class="sr-only" for="f-email">Email *</label>
-          <input id="f-email" name="email" type="email" placeholder="Email" autocomplete="email" spellcheck="false" required />
+          <input id="f-email" name="email" type="email" placeholder="Email *" autocomplete="email" spellcheck="false" required aria-describedby="e-email" />
+          <p class="field-error" id="e-email"></p>
           <label class="sr-only" for="f-message">Meddelande *</label>
-          <textarea id="f-message" name="message" placeholder="Ditt meddelande" required></textarea>
+          <textarea id="f-message" name="message" placeholder="Ditt meddelande *" required aria-describedby="e-message"></textarea>
+          <p class="field-error" id="e-message"></p>
           <!-- Honeypot: hidden from people, bots fill it in. Formspree discards submissions where _gotcha is set. -->
           <div class="hp" aria-hidden="true">
             <label>Lämna detta fält tomt <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
@@ -47,22 +52,65 @@ const formAction = 'https://formspree.io/f/mrpelaak';
   const form = document.getElementById('contact-form') as HTMLFormElement;
   const msg = document.getElementById('form-msg') as HTMLElement;
   const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+  const label = button.querySelector('span') as HTMLElement;
+  const idleLabel = label.textContent ?? 'Skicka meddelande';
+
+  // With JavaScript off the form falls back to a normal POST to Formspree.
+  // Here we take over validation so the messages are in Swedish.
+  form.noValidate = true;
+
+  const fields = ['name', 'phone', 'email', 'message'] as const;
+  const messages: Record<(typeof fields)[number], { empty: string; invalid?: string }> = {
+    name: { empty: 'Ange ditt namn.' },
+    phone: { empty: 'Ange ditt telefonnummer.' },
+    email: { empty: 'Ange din e-postadress.', invalid: 'Ange en giltig e-postadress, till exempel namn@exempel.se.' },
+    message: { empty: 'Skriv ett meddelande.' },
+  };
+
+  function setFieldError(name: (typeof fields)[number], text: string) {
+    const input = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
+    const out = document.getElementById(`e-${name}`) as HTMLElement;
+    out.textContent = text;
+    out.classList.toggle('is-visible', !!text);
+    if (text) input.setAttribute('aria-invalid', 'true');
+    else input.removeAttribute('aria-invalid');
+  }
+
+  function validate(): boolean {
+    let firstBad: HTMLElement | null = null;
+    for (const name of fields) {
+      const input = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
+      const value = input.value.trim();
+      let error = '';
+      if (!value) error = messages[name].empty;
+      else if (name === 'email' && !input.checkValidity()) error = messages.email.invalid!;
+      setFieldError(name, error);
+      if (error && !firstBad) firstBad = input;
+    }
+    firstBad?.focus();
+    return !firstBad;
+  }
 
   function show(kind: 'ok' | 'err', text: string) {
     msg.textContent = text;
     msg.className = `form-msg is-visible form-msg--${kind}`;
   }
 
+  fields.forEach((name) => {
+    form.elements.namedItem(name)?.addEventListener('input', () => setFieldError(name, ''));
+  });
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    msg.className = 'form-msg';
     const data = new FormData(form);
     if (data.get('_gotcha')) return; // bot: pretend nothing happened
-    const missing = ['name', 'phone', 'email', 'message'].some((k) => !String(data.get(k) ?? '').trim());
-    if (missing || !form.checkValidity()) {
-      show('err', 'Fyll i alla fält (Namn, Telefon, Email och Meddelande) med en giltig e-postadress.');
+    if (!validate()) {
+      show('err', 'Kontrollera de markerade fälten och försök igen.');
       return;
     }
     button.disabled = true;
+    label.textContent = 'Skickar…';
     try {
       const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
       if (!res.ok) throw new Error(String(res.status));
@@ -72,6 +120,7 @@ const formAction = 'https://formspree.io/f/mrpelaak';
       show('err', 'Något gick fel och meddelandet skickades inte. Försök igen, eller ring oss på +46 70 396 53 53.');
     } finally {
       button.disabled = false;
+      label.textContent = idleLabel;
     }
   });
 </script>
