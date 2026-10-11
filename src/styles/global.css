@@ -55,13 +55,14 @@ p { margin: 0 0 1em; }
 
 /* Header */
 .site-header { background: var(--blue); position: relative; z-index: 10; }
-.site-header .container { display: flex; align-items: center; justify-content: flex-start; gap: 60px; min-height: 110px; }
+.site-header .container { display: flex; align-items: center; justify-content: flex-start; min-height: 110px; }
+.logo { margin-right: 60px; flex: none; }
 .logo img { width: 210px; height: auto; }
 .nav { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
 .nav a { color: #ffffffe0; font-weight: 500; padding: .5rem 0; border-bottom: 2px solid transparent; }
 .nav a:hover, .nav a[aria-current='page'] { color: var(--white); }
 .nav a[aria-current='page'] { border-bottom-color: var(--white); }
-.menu-toggle { display: none; background: none; border: 0; color: var(--white); padding: 8px; cursor: pointer; }
+.menu-toggle { display: none; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; background: none; border: 0; color: var(--white); cursor: pointer; }
 .menu-toggle svg { width: 28px; height: 28px; fill: currentColor; }
 
 /* Hero */
@@ -148,7 +149,9 @@ p { margin: 0 0 1em; }
   .hero::before { background-position: -150px 120px; }
   .site-header .container { min-height: 80px; }
   .logo img { width: 150px; }
-  .menu-toggle { display: block; margin-left: auto; }
+  .logo { margin-right: 0; }
+  /* 44x44 tap target; -8px pulls the 28px icon flush with the page gutter */
+  .menu-toggle { display: inline-flex; margin-left: auto; margin-right: -8px; }
   .nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--blue); padding: 0 var(--gutter) 20px; }
   .nav.is-open { display: flex; }
   .nav a { display: block; padding: 12px 0; border-bottom: 1px solid #ffffff26; }
